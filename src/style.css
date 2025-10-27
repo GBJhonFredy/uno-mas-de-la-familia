@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.bg-whatsapp {
+  background-color: #25d366;
+}
