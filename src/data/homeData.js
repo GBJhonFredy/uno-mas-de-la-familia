@@ -1,16 +1,16 @@
 export const slides = [
   {
-    image: '/img/retrato-de-grupo-de-adorables-cachorros.jpg',
+    image: '/img/retrato-de-grupo-de-adorables-cachorros.webp',
     title: 'Cuidamos a tus mascotas como parte de nuestra familia',
     text: 'Desde accesorios hasta salud y bienestar'
   },
   {
-    image: '/img/pexels-mathew-coulton-2358287-4445456.jpg',
+    image: '/img/pexels-mathew-coulton-2358287-4445456.webp',
     title: 'Belleza y cuidado premium',
     text: 'Productos diseñados para consentir a tu peludo'
   },
   {
-    image: '/img/ingredientes-de-alimentos-para-mascotas-frescos-y-saludables-en-superficie-oscura.jpg',
+    image: '/img/ingredientes-de-alimentos-para-mascotas-frescos-y-saludables-en-superficie-oscura.webp',
     title: 'Alimentos saludables y nutritivos',
     text: 'Seleccionamos solo las mejores marcas'
   }
