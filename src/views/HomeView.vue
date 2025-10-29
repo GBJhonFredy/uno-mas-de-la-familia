@@ -80,12 +80,7 @@
     </section>
 
     <!-- PROVEEDORES -->
-    <section class="max-w-6xl mx-auto px-4 py-16 text-center fade-in">
-      <h3 class="text-2xl font-semibold mb-10">Nuestros proveedores</h3>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
-        <img v-for="prov in proveedores" :key="prov" :src="prov" class="w-24 h-24 object-contain grayscale hover:grayscale-0 transition" />
-      </div>
-    </section>
+    <Proveedores />
 
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-white py-8 mt-12">
@@ -100,11 +95,12 @@
 
 <script>
 import Slider from '@/components/PP/Slide.vue'
+import Proveedores from '@/components/PP/Proveedores.vue'
 import { categories, proveedores} from '../data/homeData.js'
 
 export default {
   name: 'HomeView',
-  components: { Slider },
+  components: { Slider, Proveedores },
   data() {
     return {
       categories,
