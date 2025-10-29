@@ -182,23 +182,47 @@
 
 <script>
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
-import { slides as slidesLocal, categories, proveedores, splideOptions } from '../data/homeData.js'
-import { createSlide } from '../services/slidesService.js'
+import { getSlides } from '@/services/slidesService.js' 
+import { categories, proveedores, splideOptions } from '../data/homeData.js'
+import { createSlide } from '@/services/slidesService.js'
 
 export default {
   name: 'HomeView',
   components: { Splide, SplideSlide },
   data() {
     return {
-      slides: slidesLocal, // si ya cargas desde Firestore, reemplaza aquí
+     slides: [], // si ya cargas desde Firestore, reemplaza aquí
       categories, proveedores, splideOptions,
       isAdmin: true,          // conéctalo luego a tu auth
       showModal: false,
       form: { file: null, title: '', text: '', published: true },
       previewUrl: '',
       submitting: false,
-      errorMsg: ''
+      errorMsg: '',
+      splideOptions,
+      loadingSlides: true
     }
+  },
+  async mounted() {
+    try {
+      this.slides = await getSlides()
+    } catch (e) {
+      console.error('Error cargando slides', e)
+    }
+
+    // animaciones reveal
+    const io = new IntersectionObserver(
+      entries => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible')
+            io.unobserve(e.target)
+          }
+        }
+      },
+      { threshold: 0.18 }
+    )
+    this.$el.querySelectorAll('.reveal').forEach(el => io.observe(el))
   },
   computed: {
     slidesFiltrados() {
