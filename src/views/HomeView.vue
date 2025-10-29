@@ -16,91 +16,9 @@
           class="smart-btn bg-white text-brand-700 ring-1 ring-brand-200 px-5 py-2 rounded-xl hover:bg-brand-50 transition">Llámanos 301 331 9889</a>
       </div>
     </header>
-
-
+    
     <!-- SLIDER -->
-    <div class="max-w-5xl mx-auto px-4 fade-in reveal">
-      <div class="relative">
-        <!-- Botón agregar -->
-        <button
-          v-if="isAdmin"
-          @click="openModal"
-          class="absolute cursor-pointer right-3 -top-10 z-10 inline-flex items-center gap-2 px-3 py-2
-             rounded-xl bg-blue-600 text-white text-sm shadow-soft hover:opacity-90"
-          title="Agregar slide">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-          </svg>
-          Agregar
-        </button>
-
-        <Splide :options="splideOptions" aria-label="Galería principal" class="rounded-2xl overflow-hidden shadow-xl">
-          <SplideSlide
-            v-for="(slide, i) in slidesFiltrados"
-            :key="slide.id || i">
-            <div class="relative group">
-              <img
-                :src="slide.imageUrl || slide.image"
-                :alt="slide.title"
-                loading="lazy"
-                decoding="async"
-                class="w-full h-[420px] object-cover" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-              <div class="absolute bottom-0 p-6 text-white">
-                <h3 class="text-2xl font-semibold">{{ slide.title }}</h3>
-                <p class="text-sm text-white/80">{{ slide.text }}</p>
-              </div>
-            </div>
-          </SplideSlide>
-        </Splide>
-      </div>
-    </div>
-
-    <!-- MODAL: crear slide -->
-    <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center">
-      <div class="absolute inset-0 bg-black/50" @click="closeModal"></div>
-      <div class="relative w-full max-w-lg mx-4 rounded-2xl bg-white p-6 shadow-xl">
-        <h3 class="text-xl font-semibold text-slate-800">Nuevo slide</h3>
-
-        <form class="mt-4 space-y-4" @submit.prevent="submitSlide">
-          <div>
-            <label class="block text-sm text-slate-700 mb-1">Imagen</label>
-            <input type="file" accept="image/*" @change="onFile" required class="cursor-pointer block w-full text-sm" />
-            <p v-if="previewUrl" class="mt-3">
-              <img :src="previewUrl" alt="preview" class="h-32 w-full object-cover rounded-md ring-1 ring-slate-200" />
-            </p>
-          </div>
-
-          <div>
-            <label class="block text-sm text-slate-700 mb-1">Título</label>
-            <input v-model="form.title" type="text" class="w-full rounded-lg ring-1 ring-slate-200 px-3 py-2 outline-none focus:ring-brand-300" />
-          </div>
-
-          <div>
-            <label class="block text-sm text-slate-700 mb-1">Descripción</label>
-            <textarea v-model="form.text" rows="3" class="w-full rounded-lg ring-1 ring-slate-200 px-3 py-2 outline-none focus:ring-brand-300"></textarea>
-          </div>
-
-          <label class="inline-flex items-center gap-2">
-            <input v-model="form.published" type="checkbox" class="h-4 w-4" />
-            <span class="text-sm text-slate-700">Publicado</span>
-          </label>
-
-          <div class="flex justify-end gap-2 pt-2">
-            <button type="button" @click="closeModal" class="cursor-pointer px-4 py-2 rounded-lg ring-1 ring-slate-200">Cancelar</button>
-            <button
-              type="submit"
-              :disabled="submitting"
-              class="cursor-pointer px-4 py-2 rounded-lg bg-green-600 text-white disabled:opacity-60">
-              {{ submitting ? 'Guardando…' : 'Guardar' }}
-            </button>
-          </div>
-
-          <p v-if="errorMsg" class="text-sm text-red-600">{{ errorMsg }}</p>
-        </form>
-      </div>
-    </div>
-
+    <Slider />
 
     <!-- MENSAJE DE BIENVENIDA -->
     <section class="max-w-6xl mx-auto mt-14 px-6 text-center">
@@ -181,90 +99,18 @@
 </template>
 
 <script>
-import { Splide, SplideSlide } from '@splidejs/vue-splide'
-import { getSlides } from '@/services/slidesService.js' 
-import { categories, proveedores, splideOptions } from '../data/homeData.js'
-import { createSlide } from '@/services/slidesService.js'
+import Slider from '@/components/PP/Slide.vue'
+import { categories, proveedores} from '../data/homeData.js'
 
 export default {
   name: 'HomeView',
-  components: { Splide, SplideSlide },
+  components: { Slider },
   data() {
     return {
-     slides: [], // si ya cargas desde Firestore, reemplaza aquí
-      categories, proveedores, splideOptions,
-      isAdmin: true,          // conéctalo luego a tu auth
-      showModal: false,
-      form: { file: null, title: '', text: '', published: true },
-      previewUrl: '',
-      submitting: false,
-      errorMsg: '',
-      splideOptions,
-      loadingSlides: true
+      categories,
+      proveedores,
     }
   },
-  async mounted() {
-    try {
-      this.slides = await getSlides()
-    } catch (e) {
-      console.error('Error cargando slides', e)
-    }
-
-    // animaciones reveal
-    const io = new IntersectionObserver(
-      entries => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add('is-visible')
-            io.unobserve(e.target)
-          }
-        }
-      },
-      { threshold: 0.18 }
-    )
-    this.$el.querySelectorAll('.reveal').forEach(el => io.observe(el))
-  },
-  computed: {
-    slidesFiltrados() {
-      // Muestra solo publicados; si el doc no tiene flag, asume true
-      return (this.slides || []).filter(s => s.published !== false)
-    }
-  },
-  methods: {
-    openModal() {
-      this.showModal = true
-      this.errorMsg = ''
-    },
-    closeModal() {
-      this.showModal = false
-      this.form = { file: null, title: '', text: '', published: true }
-      this.previewUrl = ''
-      this.submitting = false
-    },
-    onFile(e) {
-      const f = e.target.files?.[0]
-      this.form.file = f || null
-      this.previewUrl = f ? URL.createObjectURL(f) : ''
-    },
-    async submitSlide() {
-      try {
-        this.submitting = true
-        this.errorMsg = ''
-        const { file, title, text, published } = this.form
-        const res = await createSlide({ file, title, text, published })
-        // inserta en la UI sin recargar
-        this.slides.unshift({
-          id: res.id,
-          imageUrl: res.imageUrl,
-          title, text, published
-        })
-        this.closeModal()
-      } catch (err) {
-        this.errorMsg = err?.message || 'Error al guardar'
-        this.submitting = false
-      }
-    }
-  }
 }
 
 </script>
