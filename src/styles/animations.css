@@ -12,10 +12,11 @@
 }
 
 .sliderPP  {
-  background:aliceblue;
+  background:#fbebda;
   backdrop-filter: blur(6px);
 }
 
+.headerUMDF{z-index:99999}
 
 /* === BOTÓN PRINCIPAL === */
 .admin-btn {

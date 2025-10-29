@@ -3,3 +3,8 @@
 .bg-whatsapp {
   background-color: #25d366;
 }
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}

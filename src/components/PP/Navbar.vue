@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-slate-100">
+  <header class="headerUMDF sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-slate-100">
     <div class="max-w-6xl mx-auto  flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class=" rounded-full bg-brand-500">
@@ -9,8 +9,11 @@
       </div>
 
       <nav class="flex items-center gap-6">
+         <a href="#inicio" class="hover:text-[#E87C2A] transition-colors">Inicio</a>
+      <a href="#productos" class="hover:text-[#E87C2A] transition-colors">Productos</a>
+      <a href="#contacto" class="hover:text-[#E87C2A] transition-colors">Contacto</a>
         <button
-          class="relative  rounded-full bg-brand-500 text-black hover:bg-brand-600 transition"
+          class="relative hover:text-[#E87C2A] transition-colors cursor-pointer rounded-full bg-brand-500 text-black hover:bg-brand-600 transition"
           @click="$emit('toggleCart')"
         >
           Carrito
@@ -21,6 +24,7 @@
         </button>
       </nav>
     </div>
+    <div class="h-[2px] bg-gradient-to-r from-[#E87C2A] via-[#F3C382] to-[#C76B2D]"></div>
   </header>
 </template>
 
