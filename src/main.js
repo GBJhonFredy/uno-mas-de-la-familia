@@ -5,6 +5,8 @@ import App from './App.vue'
 
 import './styles/animations.css';
 import '@splidejs/splide/dist/css/splide.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
+
 
 
 createApp(App).mount('#app')

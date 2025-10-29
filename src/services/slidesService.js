@@ -69,8 +69,6 @@ export async function createSlide({ file, title, text, published = true }) {
 export async function getSlides() {
   const slidesFolder = sRef(storage, 'slides')
   const result = await listAll(slidesFolder)
-
-  // Solo archivos .json
   const jsonFiles = result.items.filter(i => i.name.endsWith('.json'))
 
   const slides = []
@@ -78,10 +76,43 @@ export async function getSlides() {
     const url = await getDownloadURL(file)
     const res = await fetch(url)
     const meta = await res.json()
-    if (meta.published) slides.push(meta)
+    if (meta.published !== false) {
+      slides.push({
+        ...meta,
+        path: file.fullPath, // 🔹 guardamos la ruta para identificarlo
+        jsonUrl: url
+      })
+    }
   }
 
-  // Ordenar por fecha descendente
   slides.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   return slides
+}
+
+/**
+ * Elimina un slide tanto de Firestore como del Storage (imagen + JSON)
+ */
+export async function deleteSlideById(pathOrJsonUrl) {
+  try {
+    // 1️⃣ Borrar el archivo JSON
+    const jsonRef = sRef(storage, pathOrJsonUrl)
+    await deleteObject(jsonRef).catch(() => {})
+
+    // 2️⃣ Borrar también la imagen asociada (.webp)
+    const imgPath = pathOrJsonUrl.replace(/\.json$/, '.webp')
+    const imgRef = sRef(storage, imgPath)
+    await deleteObject(imgRef).catch(() => {})
+
+    // 3️⃣ Borrar referencia en Firestore si existe
+    const q = query(collection(db, 'slides'), where('path', '==', pathOrJsonUrl))
+    const snap = await getDocs(q)
+    for (const d of snap.docs) {
+      await deleteDoc(doc(db, 'slides', d.id))
+    }
+
+    console.log('✅ Slide eliminado:', pathOrJsonUrl)
+  } catch (err) {
+    console.error('Error eliminando slide', err)
+    throw err
+  }
 }

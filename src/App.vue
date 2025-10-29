@@ -21,14 +21,19 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue';
-import CartSidebar from './components/CartSidebar.vue';
+import Navbar from './components/PP/Navbar.vue';
+import Slider from './components/PP/Slide.vue';
+import BtnAdmin from './components/admin/BtnAdmin.vue';
+import Modalcreate from './components/admin/Modalcreate.vue';
+import ListSlides from './components/admin/ListSlides.vue';
+import CartSidebar from './components/car/CartSidebar.vue';
 import HomeView from './views/HomeView.vue';
 import { cart } from './store/cart';
 
+
 export default {
   name: 'App',
-  components: { Navbar, CartSidebar, HomeView },
+  components: { Navbar, Slider, BtnAdmin, Modalcreate, ListSlides, CartSidebar, HomeView },
   setup() {
     function handleAddToCart(product) {
       cart.add(product);
