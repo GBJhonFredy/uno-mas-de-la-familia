@@ -57,12 +57,12 @@
 
           <!-- Nombre -->
           <div class="bg-white border border-[#E3B991]/80 rounded-xl p-4">
-            <label class="block text-sm font-semibold text-[#A2642C] mb-1">Nombre</label>
+            <label class="block text-sm font-semibold text-[#A2642C] mb-1">Nombre del Articulo</label>
             <input
               v-model="form.titulo"
               type="text"
               maxlength="30"
-              placeholder="Ej: Chunky"
+              placeholder="Alimentos, Belleza, Salud, Accesorios"
               required
               class="w-full rounded-lg border border-[#E3B991]/60 bg-[#FFF9F3] px-2 py-1 outline-none focus:ring-2 focus:ring-[#E87C2A]/40 text-sm"
             />
@@ -70,12 +70,12 @@
 
           <!-- Valor -->
           <div class="bg-white border border-[#E3B991]/80 rounded-xl p-4">
-            <label class="block text-sm font-semibold text-[#A2642C] mb-1">Valor</label>
+            <label class="block text-sm font-semibold text-[#A2642C] mb-1">Valor del Articulo</label>
             <input
               v-model="form.valor"
               type="number"
               min="0"
-              placeholder="Ej: 25000"
+              placeholder="0"
               required
               class="w-full rounded-lg border border-[#E3B991]/60 bg-[#FFF9F3] px-2 py-1 outline-none focus:ring-2 focus:ring-[#E87C2A]/40 text-sm"
             />
