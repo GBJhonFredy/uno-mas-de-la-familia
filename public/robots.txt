@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Evita indexar archivos internos del build
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /assets/
+
+# Mapa del sitio (ajusta si usas dominio propio)
+Sitemap: https://web-umdf.vercel.app/sitemap.xml

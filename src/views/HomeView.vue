@@ -12,7 +12,7 @@
       <div  class="relative mt-6 flex justify-center gap-3">
         <a data-aos="fade-right"
           href="https://wa.me/573167567448"
-          class="smart-btn bg-[#E87C2A]  items-center gap-1 text-white px-5 py-2 rounded-xl flex flex-col sm:flex-row shadow-lg hover:bg-[#D66E20] hover:scale-[1.03] active:scale-95 transition">
+          class="smart-btn bg-green-500  items-center gap-1 text-white px-5 py-2 rounded-xl flex flex-col sm:flex-row shadow-lg hover:bg-green-700 hover:scale-[1.03] active:scale-95 transition">
           <span>WhatsApp</span>
           <span>316 756 7448</span>
         </a>
@@ -26,7 +26,7 @@
     </header>
     
     <!-- SLIDER -->
-    <section data-aos="zoom-in" class="mt-8 px-5">
+    <section class="mt-8 px-5">
       <Slider />
     </section>
     <!-- MENSAJE DE BIENVENIDA -->

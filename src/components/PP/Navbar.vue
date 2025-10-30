@@ -3,7 +3,7 @@
     <div class="max-w-6xl sm:px-5 mx-auto  flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class=" rounded-full bg-brand-500">
-          <img class="text-lg font-semibold w-[100px]" src="/img/logo.png" alt="UNO MÁS DE LA FAMILIA">
+          <img class="text-lg font-semibold w-[100px]" src="/img/logo.webp" alt="UNO MÁS DE LA FAMILIA">
         </div>
 
       </div>

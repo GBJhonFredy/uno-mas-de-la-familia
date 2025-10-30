@@ -3,7 +3,7 @@ export const categories = [
   {
     name: 'Alimentos',
     desc: 'Nutrición balanceada y de calidad.',
-    icon: '/img/alimentos-enlatados.png'
+    icon: '/img/alimentos-enlatados.webp'
   },
   {
     name: 'Salud',
@@ -13,12 +13,12 @@ export const categories = [
   {
     name: 'Belleza',
     desc: 'Shampoo, cepillos y cuidado estético.',
-    icon: '/img/belleza.png'
+    icon: '/img/belleza.webp'
   },
   {
     name: 'Accesorios',
     desc: 'Collares, camas y juguetes premium.',
-    icon: '/img/accesorios.png'
+    icon: '/img/accesorios.webp'
   }
 ]
 

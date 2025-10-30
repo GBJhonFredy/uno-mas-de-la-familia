@@ -1,6 +1,6 @@
 <template>
   <!-- SLIDER -->
-  <div class="sliderPP max-w-5xl mx-auto rounded-2xl fade-in relative min-h-[420px] flex items-center justify-center">
+  <div data-aos="zoom-in"  class="sliderPP max-w-5xl mx-auto rounded-2xl fade-in relative min-h-[420px] flex items-center justify-center">
 
     <!-- 🔹 Botón de herramientas para admin -->
     <div class="absolute top-4 right-6 z-50">
