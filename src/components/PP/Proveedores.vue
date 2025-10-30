@@ -3,7 +3,7 @@
     <h3 class="text-2xl font-semibold mb-10">Nuestros proveedores</h3>
 
     <!-- 🔹 CONTENEDOR PRINCIPAL (slider + loader + vacío) -->
-    <div class="relative rounded-2xl min-h-[300px] flex items-center justify-center overflow-hidden">
+    <div data-aos="fade-up" class="relative rounded-2xl min-h-[300px] flex items-center justify-center overflow-hidden">
 
       <!-- 🔹 Botón admin dentro del área -->
       <div class="absolute top-4 right-4 z-50">

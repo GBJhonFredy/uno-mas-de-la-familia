@@ -22,14 +22,6 @@ export const categories = [
   }
 ]
 
-export const proveedores = [
-  '/src/assets/providers/p1.png',
-  '/src/assets/providers/p2.png',
-  '/src/assets/providers/p3.png',
-  '/src/assets/providers/p4.png',
-  '/src/assets/providers/p5.png'
-]
-
 export const splideOptions = {
   type: 'loop',
   autoplay: true,

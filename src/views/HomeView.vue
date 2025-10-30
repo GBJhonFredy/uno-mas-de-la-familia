@@ -1,34 +1,36 @@
 <template>
   <section class="text-[#3B2C20]">
     <!-- HEADER -->
-    <header id="inicio" class="scroll-mt-32 relative overflow-hidden py-14 text-center fade-in">
+    <header id="inicio"  class="px-5 scroll-mt-32 relative overflow-hidden py-14 text-center fade-in">
       <div class="absolute inset-0 bg-gradient-to-r from-[#FFEBD3]/80 via-[#FFD8A8]/70 to-[#FFF0DA]/80 pointer-events-none"></div>
       <h1 class="font-pacifico relative text-4xl  tracking-tight text-[#E87C2A] drop-shadow-sm">
-        UNO MÁS DE LA FAMILIA
+        Uno + de la Familia
       </h1>
       <p class="relative mt-2 text-[#5C3B1E]">
         Amor, bienestar y cuidado para tus mascotas
       </p>
-      <div class="relative mt-6 flex justify-center gap-3">
-        <a
+      <div  class="relative mt-6 flex justify-center gap-3">
+        <a data-aos="fade-right"
           href="https://wa.me/573167567448"
-          class="smart-btn bg-[#E87C2A] text-white px-5 py-2 rounded-xl shadow-lg hover:bg-[#D66E20] hover:scale-[1.03] active:scale-95 transition">
-          WhatsApp 316 756 7448
+          class="smart-btn bg-[#E87C2A]  items-center gap-1 text-white px-5 py-2 rounded-xl flex flex-col sm:flex-row shadow-lg hover:bg-[#D66E20] hover:scale-[1.03] active:scale-95 transition">
+          <span>WhatsApp</span>
+          <span>316 756 7448</span>
         </a>
-        <a
+        <a data-aos="fade-left"
           href="tel:573013319889"
-          class="smart-btn bg-white text-[#A2642C] border border-[#E3B991] px-5 py-2 rounded-xl hover:bg-[#FFF1E4] transition">
-          Llámanos 301 331 9889
+          class="smart-btn bg-white text-[#A2642C]  items-center gap-1 border border-[#E3B991] px-5 py-2 rounded-xl flex flex-col sm:flex-row  hover:bg-[#FFF1E4] transition">
+          <span >Llámanos</span>
+          <span class="text-sm">301 331 9889</span>
         </a>
       </div>
     </header>
     
     <!-- SLIDER -->
-    <section class="mt-8">
+    <section data-aos="zoom-in" class="mt-8 px-5">
       <Slider />
     </section>
     <!-- MENSAJE DE BIENVENIDA -->
-    <section id="contacto" class="scroll-mt-32 max-w-6xl mx-auto mt-14 px-6 text-center">
+    <section data-aos="fade-up" id="contacto" class="scroll-mt-32 max-w-6xl mx-auto mt-14 px-6 text-center">
       <div class="relative overflow-hidden rounded-3xl p-10 bg-white shadow-md ring-1 ring-[#F3D6B3]/70">
         <!-- blobs suaves -->
         <div class="pointer-events-none absolute -top-24 -left-10 h-56 w-72 bg-[#FFD8A8]/40 blur-3xl"></div>
@@ -47,7 +49,7 @@
     </section>
 
     <!-- INFO -->
-    <section class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-3 gap-8 fade-in">
+    <section data-aos="fade-up" class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-3 gap-8 fade-in">
       <div class="card-hover rounded-2xl p-6 ring-1 ring-[#F3D6B3] bg-white shadow-md hover:shadow-lg">
         <h3 class="text-xl font-semibold text-[#E87C2A] mb-3">Ubicación</h3>
         <p>Bello, Antioquia · Niquía</p>
@@ -70,11 +72,11 @@
     </section>
 
     <!-- CATEGORÍAS -->
-    <section id="productos" class="scroll-mt-38 bg-[#FFF0DA] py-16 fade-in">
+    <section  id="productos" class="scroll-mt-38 bg-[#FFF0DA] py-16 fade-in">
       <div class="max-w-6xl mx-auto px-4 text-center">
         <h3 class="text-2xl font-semibold text-[#A2642C] mb-10">Nuestras categorías</h3>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div
+        <div  class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div data-aos="fade-up"
             v-for="cat in categories"
             :key="cat.name"
             class="bg-white shadow-md rounded-2xl p-6 ring-1 ring-[#F3D6B3] hover:-translate-y-1 hover:shadow-lg transition">
