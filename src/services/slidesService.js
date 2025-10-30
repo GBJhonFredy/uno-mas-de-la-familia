@@ -12,7 +12,6 @@ import {
   getDocs,
   query,
   where,
-  orderBy,
   serverTimestamp
 } from 'firebase/firestore'
 import imageCompression from 'browser-image-compression'

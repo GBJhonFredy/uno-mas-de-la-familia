@@ -29,6 +29,7 @@ import BtnAdmin from './components/admin/BtnAdmin.vue';
 import Modalcreate from './components/admin/Modalcreate.vue';
 import ListSlides from './components/admin/ListSlides.vue';
 import ModalCreateProveedor from './components/admin/ModalCreateProveedor.vue';
+import BottomSheetProduct from './components/admin/BottomSheetProduct.vue';
 
 import CartSidebar from './components/car/CartSidebar.vue';
 import HomeView from './views/HomeView.vue';
@@ -37,7 +38,7 @@ import { cart } from './store/cart';
 
 export default {
   name: 'App',
-  components: { Navbar, Slider, BtnAdmin, Modalcreate, ListSlides, CartSidebar, HomeView, Proveedores, ModalCreateProveedor },
+  components: { Navbar, Slider, BtnAdmin, Modalcreate, ListSlides, CartSidebar, HomeView, Proveedores, ModalCreateProveedor , BottomSheetProduct },
   setup() {
     function handleAddToCart(product) {
       cart.add(product);

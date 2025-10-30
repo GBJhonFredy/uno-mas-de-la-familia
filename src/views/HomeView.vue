@@ -12,7 +12,7 @@
       <div  class="relative mt-6 flex justify-center gap-3">
         <a data-aos="fade-right"
           href="https://wa.me/573167567448"
-          class="smart-btn bg-green-500  items-center gap-1 text-white px-5 py-2 rounded-xl flex flex-col sm:flex-row shadow-lg hover:bg-green-700 hover:scale-[1.03] active:scale-95 transition">
+          class="smart-btn bg-whatsapp  items-center gap-1 text-white px-5 py-2 rounded-xl flex flex-col sm:flex-row shadow-lg hover:scale-[1.03] active:scale-95 transition">
           <span>WhatsApp</span>
           <span>316 756 7448</span>
         </a>
@@ -71,22 +71,47 @@
       </div>
     </section>
 
+
     <!-- CATEGORÍAS -->
-    <section  id="productos" class="scroll-mt-38 bg-[#FFF0DA] py-16 fade-in">
-      <div class="max-w-6xl mx-auto px-4 text-center">
-        <h3 class="text-2xl font-semibold text-[#A2642C] mb-10">Nuestras categorías</h3>
-        <div  class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div data-aos="fade-up"
-            v-for="cat in categories"
-            :key="cat.name"
-            class="bg-white shadow-md rounded-2xl p-6 ring-1 ring-[#F3D6B3] hover:-translate-y-1 hover:shadow-lg transition">
-            <img :src="cat.icon" :alt="cat.name" class="w-16 h-16 mx-auto mb-4" />
-            <h4 class="font-semibold text-[#E87C2A]">{{ cat.name }}</h4>
-            <p class="text-sm text-[#5C3B1E] mt-1">{{ cat.desc }}</p>
-          </div>
+<section id="productos" class="scroll-mt-38 bg-[#FFF0DA] py-16 fade-in">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <h3 class="text-2xl font-semibold text-[#A2642C] mb-10">Nuestras categorías</h3>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div
+        v-for="cat in categories"
+        :key="cat.name"
+        class="relative cursor-pointer bg-white shadow-md rounded-2xl p-6 ring-1 ring-[#F3D6B3] hover:-translate-y-1 hover:shadow-lg transition"
+      >
+        <!-- BtnAdmin sobre cada card -->
+        <div class="absolute top-2 right-2 z-10">
+          <BtnAdmin
+            :actions="[
+              { label: 'Agregar', title: 'Nuevo producto', icon: '/img/upload-svgrepo-com.svg', event: 'add' },
+              { label: 'Ver', title: 'Ver productos', icon: '/img/list-check-box-svgrepo-com.svg', event: 'view' }
+            ]"
+            @action="onAction(cat.name, $event)"
+          />
         </div>
+
+        <img :src="cat.icon" :alt="cat.name" class="w-16 h-16 mx-auto mb-4" />
+        <h4 class="font-semibold text-[#E87C2A]">{{ cat.name }}</h4>
+        <p class="text-sm text-[#5C3B1E] mt-1">{{ cat.desc }}</p>
       </div>
-    </section>
+    </div>
+  </div>
+   <BottomSheetProduct
+  v-if="showForm"
+  :open="showForm"
+  :category="currentCategory"
+  @close="showForm = false"
+  @created="showForm = false"
+/>
+</section>
+<!-- Bottom-sheet creación -->
+  
+
+
 
     <!-- PROVEEDORES -->
     <Proveedores />
@@ -101,18 +126,31 @@
       <div class="h-[4px] bg-gradient-to-r from-[#E87C2A] via-[#FFD8A8] to-[#C76B2D] mt-6"></div>
     </footer>
   </section>
+ 
 </template>
 
 <script>
 import Slider from '@/components/PP/Slide.vue'
 import Proveedores from '@/components/PP/Proveedores.vue'
+import BottomSheetProduct from '@/components/admin/BottomSheetProduct.vue';
+import BtnAdmin from '@/components/admin/BtnAdmin.vue'
 import { categories } from '../data/homeData.js'
+
+
 
 export default {
   name: 'HomeView',
-  components: { Slider, Proveedores },
+  components: { Slider, Proveedores, BottomSheetProduct, BtnAdmin },
   data() {
-    return { categories }
+    return {  categories,
+      showForm: false,
+      currentCategory: '' }
+  },
+  methods: {
+    onAction(category, action) {
+      this.currentCategory = category.toLowerCase()
+      if (action === 'add') this.showForm = true
+    }
   },
 }
 </script>

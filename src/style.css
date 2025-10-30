@@ -3,6 +3,9 @@
 .bg-whatsapp {
   background-color: #25d366;
 }
+.bg-whatsapp:hover {
+  background-color: #1EBE5D;
+}
 /* cyrillic-ext */
 @font-face {
   font-family: 'Pacifico';
