@@ -63,21 +63,21 @@
     </Splide>
   </div>
 
-  <ModalCreate v-if="showModal" @close="closeModal" @created="onSlideCreated" />
+  <ModalCreateDynamic v-if="showModal" :open="showModal" type="slide" @close="closeModal" />
   <ListSlides v-if="showList" @close="closeList" @edit="onEditSlide" />
 
 </template>
 <script>
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
-import { getSlides } from '@/services/slidesService.js'
+import { getSlides, listenSlides } from '@/services/slidesService.js'
 import { splideOptions } from '@/data/homeData.js'
 import BtnAdmin from '@/components/admin/BtnAdmin.vue'
-import ModalCreate from '@/components/admin/Modalcreate.vue'
+import ModalCreateDynamic from '@/components/admin/ModalCreateDynamic.vue'
 import ListSlides from '../admin/ListSlides.vue'
 
 export default {
   name: 'Slider',
-  components: { Splide, SplideSlide, BtnAdmin, ModalCreate, ListSlides },
+  components: { Splide, SplideSlide, BtnAdmin, ModalCreateDynamic, ListSlides },
   data() {
     return {
       slides: [],
@@ -95,13 +95,20 @@ export default {
   },
 
   async mounted() {
+    // Escuchamos cambios en tiempo real (solo publicados para la vista pública)
     try {
-      this.slides = await getSlides()
+      this.unsubSlides = listenSlides(slides => {
+        // listenSlides devuelve ya solo los publicados cuando includeUnpublished=false
+        this.slides = slides
+        this.loadingSlides = false
+      }, { includeUnpublished: false })
     } catch (e) {
-      console.error('Error cargando slides', e)
-    } finally {
+      console.error('Error escuchando slides', e)
       this.loadingSlides = false
     }
+  },
+  beforeUnmount() {
+    if (this.unsubSlides) this.unsubSlides()
   },
 
   computed: {
@@ -121,9 +128,7 @@ export default {
     closeModal() {
       this.showModal = false
     },
-    onSlideCreated(slide) {
-      this.slides.unshift(slide)
-    },
+    // onSlideCreated removed: usamos listener en tiempo real para reflejar nuevos slides
     openList() {
     this.showList = true
   },

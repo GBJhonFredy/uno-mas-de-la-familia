@@ -61,7 +61,8 @@ export async function createProduct(category, form) {
   if (['Salud', 'Belleza', 'Accesorios'].includes(normalizedCategory)) {
     metadata = {
       ...baseData,
-      valor: form.valor || 0
+      valor: form.valor || 0,
+       disponible: !!form.disponible
     }
   } else {
     // 🔸 Categoría alimentos → guarda todo
@@ -69,7 +70,8 @@ export async function createProduct(category, form) {
       ...baseData,
       valor: form.valor || 0,
       empaquetado: !!form.empaquetado,
-      kilo: !!form.kilo
+      kilo: !!form.kilo,
+      disponible: !!form.disponible
     }
   }
 

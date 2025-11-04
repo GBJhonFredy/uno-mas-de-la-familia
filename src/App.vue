@@ -26,10 +26,9 @@ import Slider from './components/PP/Slide.vue';
 import Proveedores from './components/PP/Proveedores.vue';
 
 import BtnAdmin from './components/admin/BtnAdmin.vue';
-import Modalcreate from './components/admin/Modalcreate.vue';
 import ListSlides from './components/admin/ListSlides.vue';
-import ModalCreateProveedor from './components/admin/ModalCreateProveedor.vue';
-import BottomSheetProduct from './components/admin/BottomSheetProduct.vue';
+import ModalCreateDynamic from './components/admin/ModalCreateDynamic.vue';
+import ModalEdit from './components/admin/ModalEdit.vue';
 
 import CartSidebar from './components/car/CartSidebar.vue';
 import HomeView from './views/HomeView.vue';
@@ -38,7 +37,7 @@ import { cart } from './store/cart';
 
 export default {
   name: 'App',
-  components: { Navbar, Slider, BtnAdmin, Modalcreate, ListSlides, CartSidebar, HomeView, Proveedores, ModalCreateProveedor , BottomSheetProduct },
+  components: { Navbar, Slider, BtnAdmin, ListSlides, CartSidebar, HomeView, Proveedores, ModalCreateDynamic, ModalEdit },
   setup() {
     function handleAddToCart(product) {
       cart.add(product);

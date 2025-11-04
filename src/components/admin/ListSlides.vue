@@ -9,12 +9,9 @@
     >
       <!-- Header -->
       <header class="flex justify-between items-center mb-5 border-b border-[#FFE1B0] pb-3">
-        <h2 class="text-xl font-semibold text-[#3B2C20]">
-          Administrador de Slides
-        </h2>
+        <h2 class="text-xl font-semibold text-[#3B2C20]">Administrador de Slides</h2>
 
         <div class="flex items-center gap-3">
-
           <button
             @click="$emit('close')"
             class="p-2 rounded-full hover:bg-[#FFEBD3] transition"
@@ -65,7 +62,7 @@
           <tbody>
             <tr
               v-for="item in filteredSlides"
-              :key="item.id"
+              :key="item.path"
               class="border-t border-[#FFE1B0] hover:bg-[#FFF8F2] transition"
             >
               <td class="p-3">
@@ -85,18 +82,20 @@
                   {{ item.published ? 'Sí' : 'No' }}
                 </span>
               </td>
-              <td class="p-3 text-center">
-                <div class="relative inline-block text-left">
+              <td class="p-3 text-center relative">
+                <div class="relative inline-block">
+                  <!-- Botón menú -->
                   <button
-                    @click="toggleMenu(item.id)"
+                    @click="toggleMenu(item.path)"
                     class="p-2 rounded-full hover:bg-[#FFEBD3] transition"
                   >
                     <i class="fas fa-ellipsis-v text-[#A2642C]"></i>
                   </button>
 
+                  <!-- Menú -->
                   <transition name="fade">
                     <div
-                      v-if="menuOpen === item.id"
+                      v-if="menuOpen === item.path"
                       class="absolute right-0 mt-2 w-32 bg-white border border-[#FFD8A8] rounded-lg shadow-lg z-10"
                     >
                       <button
@@ -124,15 +123,28 @@
       <div v-if="!slides.length && !loading" class="text-center text-[#A2642C] py-6">
         No hay slides registrados.
       </div>
+
+      <!-- 🔹 Modal de edición dentro del div principal -->
+      <ModalEdit
+        v-if="editOpen"
+        :open="editOpen"
+        type="slide"
+        :item="currentItem"
+        @close="editOpen = false"
+        @updated="handleUpdated"
+      />
     </div>
   </div>
 </template>
 
+
 <script>
-import { getSlides, deleteSlideById } from '@/services/slidesService.js'
+import ModalEdit from '@/components/admin/ModalEdit.vue'
+import { getSlides, deleteSlideById, listenSlides } from '@/services/slidesService.js'
 
 export default {
   name: 'ListSlides',
+  components: { ModalEdit },
   emits: ['close', 'edit'],
   data() {
     return {
@@ -140,7 +152,9 @@ export default {
       loading: true,
       menuOpen: null,
       rowsPerPage: 5,
-      search: ''
+      search: '',
+      editOpen: false,
+      currentItem: null
     }
   },
   computed: {
@@ -155,36 +169,45 @@ export default {
     }
   },
   async mounted() {
+    // Usamos un listener en tiempo real para que la lista se actualice sin recargar
     try {
-      this.slides = await getSlides()
+      this.unsub = listenSlides(slides => {
+        this.slides = slides
+        this.loading = false
+      }, { includeUnpublished: true })
     } catch (e) {
-      console.error('Error al obtener slides', e)
-    } finally {
+      console.error('Error al escuchar slides', e)
       this.loading = false
     }
+  },
+  beforeUnmount() {
+    if (this.unsub) this.unsub()
   },
   methods: {
     toggleMenu(id) {
       this.menuOpen = this.menuOpen === id ? null : id
     },
     editSlide(item) {
-      this.$emit('edit', item)
+      this.currentItem = item
+      this.editOpen = true
       this.menuOpen = null
+    },
+    handleUpdated(updated) {
+      const i = this.slides.findIndex(s => s.path === this.currentItem.path)
+      if (i !== -1) this.slides[i] = { ...this.slides[i], ...updated }
     },
     async deleteSlide(item) {
       if (!confirm(`¿Eliminar "${item.title}"?`)) return
       try {
-        await deleteSlideById(item.id)
-        this.slides = this.slides.filter(s => s.id !== item.id)
+        await deleteSlideById(item.path)
+        this.slides = this.slides.filter(s => s.path !== item.path)
       } catch (e) {
         console.error('Error al eliminar', e)
       }
       this.menuOpen = null
-    },
-    openCreateModal() {
-      this.$emit('create')
     }
   }
+
 }
 </script>
 
@@ -193,6 +216,7 @@ export default {
 .fade-leave-active {
   transition: opacity 0.2s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

@@ -100,13 +100,14 @@
       </div>
     </div>
   </div>
-   <BottomSheetProduct
-  v-if="showForm"
-  :open="showForm"
-  :category="currentCategory"
-  @close="showForm = false"
-  @created="showForm = false"
-/>
+   <ModalCreateDynamic
+    v-if="showForm"
+    :open="showForm"
+    type="product"
+    :category="currentCategory"
+    @close="showForm = false"
+    @created="showForm = false"
+  />
 </section>
 <!-- Bottom-sheet creación -->
   
@@ -132,7 +133,7 @@
 <script>
 import Slider from '@/components/PP/Slide.vue'
 import Proveedores from '@/components/PP/Proveedores.vue'
-import BottomSheetProduct from '@/components/admin/BottomSheetProduct.vue';
+import ModalCreateDynamic from '@/components/admin/ModalCreateDynamic.vue'
 import BtnAdmin from '@/components/admin/BtnAdmin.vue'
 import { categories } from '../data/homeData.js'
 
@@ -140,7 +141,7 @@ import { categories } from '../data/homeData.js'
 
 export default {
   name: 'HomeView',
-  components: { Slider, Proveedores, BottomSheetProduct, BtnAdmin },
+  components: { Slider, Proveedores, ModalCreateDynamic, BtnAdmin },
   data() {
     return {  categories,
       showForm: false,
