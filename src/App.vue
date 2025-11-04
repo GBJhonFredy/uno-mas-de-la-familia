@@ -27,8 +27,8 @@ import Proveedores from './components/PP/Proveedores.vue';
 
 import BtnAdmin from './components/admin/BtnAdmin.vue';
 import ListSlides from './components/admin/ListSlides.vue';
-import ModalCreateDynamic from './components/admin/ModalCreateDynamic.vue';
 import ModalEdit from './components/admin/ModalEdit.vue';
+
 
 import CartSidebar from './components/car/CartSidebar.vue';
 import HomeView from './views/HomeView.vue';
@@ -37,7 +37,7 @@ import { cart } from './store/cart';
 
 export default {
   name: 'App',
-  components: { Navbar, Slider, BtnAdmin, ListSlides, CartSidebar, HomeView, Proveedores, ModalCreateDynamic, ModalEdit },
+  components: { Navbar, Slider, BtnAdmin, ListSlides, CartSidebar, HomeView, Proveedores, ModalCreate, ModalEdit },
   setup() {
     function handleAddToCart(product) {
       cart.add(product);

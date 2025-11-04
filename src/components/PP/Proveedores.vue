@@ -67,7 +67,7 @@
     </div>
 
     <!-- 🔹 Modal crear proveedor -->
-    <ModalCreateDynamic
+    <ModalCreate
       v-if="showModal"
       :open="showModal"
       type="proveedor"
@@ -81,11 +81,11 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import { getproveedores } from '@/services/proveedoresService.js'
 import BtnAdmin from '@/components/admin/BtnAdmin.vue'
-import ModalCreateDynamic from '@/components/admin/ModalCreateDynamic.vue'
+import ModalCreate from '@/components/admin/ModalCreate.vue'
 
 export default {
   name: 'Proveedores',
-  components: { Splide, SplideSlide, BtnAdmin, ModalCreateDynamic },
+  components: { Splide, SplideSlide, BtnAdmin, ModalCreate },
   data() {
     return {
       proveedores: [],

@@ -63,7 +63,7 @@
     </Splide>
   </div>
 
-  <ModalCreateDynamic v-if="showModal" :open="showModal" type="slide" @close="closeModal" />
+  <ModalCreate v-if="showModal" :open="showModal" type="slide" @close="closeModal" />
   <ListSlides v-if="showList" @close="closeList" @edit="onEditSlide" />
 
 </template>
@@ -72,12 +72,12 @@ import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import { getSlides, listenSlides } from '@/services/slidesService.js'
 import { splideOptions } from '@/data/homeData.js'
 import BtnAdmin from '@/components/admin/BtnAdmin.vue'
-import ModalCreateDynamic from '@/components/admin/ModalCreateDynamic.vue'
+import ModalCreate from '@/components/admin/ModalCreate.vue'
 import ListSlides from '../admin/ListSlides.vue'
 
 export default {
   name: 'Slider',
-  components: { Splide, SplideSlide, BtnAdmin, ModalCreateDynamic, ListSlides },
+  components: { Splide, SplideSlide, BtnAdmin, ModalCreate, ListSlides },
   data() {
     return {
       slides: [],
