@@ -140,14 +140,13 @@ import ModalCreate from '@/components/admin/ModalCreate.vue'
 import ModalList from '@/components/admin/ModalList.vue'
 import BottomSheet from '@/components/PP/BottomSheet.vue'
 import { getProducts } from '@/services/productsService.js'
-import BtnAdmin from '@/components/admin/BtnAdmin.vue'
 import { categories } from '../data/homeData.js'
 
 
 
 export default {
   name: 'HomeView',
-  components: { Slider, Proveedores, ModalCreate, BtnAdmin, ModalList, BottomSheet },
+  components: { Slider, Proveedores, ModalCreate, ModalList, BottomSheet },
   data() {
     return {  categories,
       showForm: false,
