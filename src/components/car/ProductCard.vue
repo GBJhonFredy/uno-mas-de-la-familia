@@ -1,5 +1,5 @@
 <template>
-  <article class="card-hover rounded-xl2 shadow-soft bg-white overflow-hidden fade-in">
+  <article class="card-hover rounded-xl2 shadow-soft bg-white overflow-hidden fade-in" @click="$emit('open', product)">
     <img :src="product.image" :alt="product.name" class="w-full h-40 object-cover" />
 
     <div class="p-4">
@@ -19,7 +19,7 @@
       <button
         class="mt-4 w-full px-4 py-2 rounded-lg bg-slate-900 text-white hover:opacity-90 transition disabled:opacity-50"
         :disabled="!isPurchasable"
-        @click="$emit('add', product)"
+        @click.stop="$emit('add', product)"
       >
         {{ isPurchasable ? 'Agregar al carrito' : statusLabel }}
       </button>
@@ -30,6 +30,7 @@
 <script>
 export default {
   name: 'ProductCard',
+  emits: ['add', 'open'],
   props: { product: { type: Object, required: true } },
   computed: {
     isPurchasable() {

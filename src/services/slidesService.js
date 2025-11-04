@@ -189,6 +189,12 @@ export function listenSlides(callback, options = { includeUnpublished: false }) 
     const promises = snapshot.docs.map(async d => {
       const data = d.data()
       const path = data.path
+      // Guardar por si algún documento de Firestore no tiene 'path'
+      if (!path || typeof path !== 'string') {
+        console.warn('Documento de slide sin campo "path" o inválido:', d.id, data)
+        return null
+      }
+
       try {
         const ref = sRef(storage, path)
         const url = await getDownloadURL(ref)
@@ -209,7 +215,8 @@ export function listenSlides(callback, options = { includeUnpublished: false }) 
         if (!options.includeUnpublished && meta.published === false) return null
         return { ...meta, path, jsonUrl: url }
       } catch (err) {
-        // Si falla la lectura del JSON, ignorar pero loguear
+        // Si falla la lectura del JSON (404, permisos, etc.), loguear y continuar.
+        // Evitamos errores de root-ref cuando path es undefined y reducimos ruido en consola.
         console.error('Error leyendo JSON de slide', path, err)
         return null
       }
@@ -222,3 +229,4 @@ export function listenSlides(callback, options = { includeUnpublished: false }) 
 
   return unsub
 }
+

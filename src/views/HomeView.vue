@@ -82,9 +82,10 @@
         v-for="cat in categories"
         :key="cat.name"
         class="relative cursor-pointer bg-white shadow-md rounded-2xl p-6 ring-1 ring-[#F3D6B3] hover:-translate-y-1 hover:shadow-lg transition"
+        @click="openCategory(cat.name)"
       >
         <!-- BtnAdmin sobre cada card -->
-        <div class="absolute top-2 right-2 z-10">
+        <div class="absolute top-2 right-2 z-10" @click.stop>
           <BtnAdmin
             :actions="[
               { label: 'Agregar', title: 'Nuevo producto', icon: '/img/upload-svgrepo-com.svg', event: 'add' },
@@ -100,7 +101,7 @@
       </div>
     </div>
   </div>
-   <ModalCreateDynamic
+   <ModalCreate
     v-if="showForm"
     :open="showForm"
     type="product"
@@ -108,6 +109,8 @@
     @close="showForm = false"
     @created="showForm = false"
   />
+  <ModalList :open="showList" type="product" :category="currentCategory" @close="showList = false" />
+  <BottomSheet :open="bottomOpen" :items="bottomItems" :category="currentCategory" @close="bottomOpen = false" @added-many="onAddedMany" @added="onAddedSingle" />
 </section>
 <!-- Bottom-sheet creación -->
   
@@ -133,7 +136,10 @@
 <script>
 import Slider from '@/components/PP/Slide.vue'
 import Proveedores from '@/components/PP/Proveedores.vue'
-import ModalCreateDynamic from '@/components/admin/ModalCreateDynamic.vue'
+import ModalCreate from '@/components/admin/ModalCreate.vue'
+import ModalList from '@/components/admin/ModalList.vue'
+import BottomSheet from '@/components/PP/BottomSheet.vue'
+import { getProducts } from '@/services/productsService.js'
 import BtnAdmin from '@/components/admin/BtnAdmin.vue'
 import { categories } from '../data/homeData.js'
 
@@ -141,17 +147,44 @@ import { categories } from '../data/homeData.js'
 
 export default {
   name: 'HomeView',
-  components: { Slider, Proveedores, ModalCreateDynamic, BtnAdmin },
+  components: { Slider, Proveedores, ModalCreate, BtnAdmin, ModalList, BottomSheet },
   data() {
     return {  categories,
       showForm: false,
-      currentCategory: '' }
+      currentCategory: '',
+      showList: false,
+      // bottom sheet state
+      bottomOpen: false,
+      bottomItems: []
+    }
   },
   methods: {
     onAction(category, action) {
       this.currentCategory = category.toLowerCase()
       if (action === 'add') this.showForm = true
+      if (action === 'view') this.showList = true
+    }
+    ,
+    async openCategory(cat) {
+      // abrir panel inferior con productos de la categoría seleccionada
+      try {
+        this.currentCategory = (cat || '').toLowerCase()
+        this.bottomItems = []
+        this.bottomOpen = true
+        this.bottomItems = await getProducts(this.currentCategory || 'general')
+      } catch (err) {
+        console.error('Error cargando productos para bottom sheet', err)
+        this.bottomItems = []
+      }
+    },
+    onAddedMany(list) {
+      // acción tras agregar varios items (opcional: mostrar toast)
+      console.info('Items agregados al pedido:', list)
+    },
+    onAddedSingle(item) {
+      console.info('Item agregado al pedido:', item)
     }
   },
 }
 </script>
+
