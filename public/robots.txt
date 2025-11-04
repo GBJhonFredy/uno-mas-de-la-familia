@@ -7,4 +7,4 @@ Disallow: /node_modules/
 Disallow: /assets/
 
 # Mapa del sitio (ajusta si usas dominio propio)
-Sitemap: https://web-umdf.vercel.app/sitemap.xml
+Sitemap: https://web-umdf.vercel.app/
