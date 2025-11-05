@@ -5,8 +5,8 @@
     <!-- 🔹 CONTENEDOR PRINCIPAL (slider + loader + vacío) -->
     <div data-aos="fade-up" class="relative rounded-2xl min-h-[300px] flex items-center justify-center overflow-hidden">
 
-      <!-- 🔹 Botón admin dentro del área -->
-      <div class="absolute top-4 right-4 z-50">
+      <!-- 🔹 Botón admin dentro del área (visible sólo si está logueado) -->
+      <div v-if="isAdmin" class="absolute top-4 right-4 z-50">
         <BtnAdmin
           :actions="[
             { label: 'Nuevo', title: 'Agregar Proveedor', icon: '/img/upload-svgrepo-com.svg', event: 'add' }
@@ -91,6 +91,7 @@ export default {
       proveedores: [],
       loading: true,
       showModal: false,
+      isAdmin: false,
       splideOptions: {
         perPage: 5,
         gap: '1rem',
@@ -109,6 +110,13 @@ export default {
     }
   },
   async mounted() {
+    // inicializar estado admin desde session
+    this.isAdmin = Boolean(sessionStorage.getItem('umdf_logged'))
+    this._onLogin = () => { this.isAdmin = true }
+    this._onLogout = () => { this.isAdmin = false }
+    window.addEventListener('umdf:login', this._onLogin)
+    window.addEventListener('umdf:logout', this._onLogout)
+
     try {
       this.proveedores = await getproveedores()
     } catch (e) {
@@ -116,6 +124,10 @@ export default {
     } finally {
       this.loading = false
     }
+  },
+  beforeUnmount() {
+    window.removeEventListener('umdf:login', this._onLogin)
+    window.removeEventListener('umdf:logout', this._onLogout)
   },
   methods: {
     handleAdminAction(event) {

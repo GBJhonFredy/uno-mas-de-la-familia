@@ -97,11 +97,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-.animate-slideUp { animation: slideUp 0.3s ease-out; }
-</style>

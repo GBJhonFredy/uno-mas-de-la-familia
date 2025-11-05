@@ -1,7 +1,7 @@
 <template>
     <transition name="bubble">
-    <div v-if="open" class="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm pt-8 md:pt-20">
-        <div class="relative w-full max-w-lg md:max-w-3xl mx-4 bg-[#FFF7EE] rounded-2xl shadow-2xl border border-[#FFD8A8]/60 p-6 animate-bubbleIn max-h-[78vh] overflow-y-auto">
+        <div v-if="open" class="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 backdrop-blur-sm pt-8 md:pt-20">
+            <div class="relative w-full max-w-lg md:max-w-3xl mx-4 bg-[#FFF7EE] rounded-2xl shadow-2xl border border-[#FFD8A8]/60 p-6 animate-bubbleIn max-h-[78vh] overflow-y-auto">
                 <button @click="$emit('close')" class="cursor-pointer absolute top-3 right-3 text-[#A2642C] hover:text-[#E87C2A] text-xl transition">×</button>
 
                 <h2 class="text-xl font-bold text-[#E87C2A] text-center mb-6">
@@ -9,7 +9,7 @@
                 </h2>
 
                 <form @submit.prevent="confirmBeforeSave" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    
+
                     <div class="md:col-span-2 border-2 border-dashed border-[#E3B991] rounded-xl flex items-center justify-center bg-white/80 hover:bg-[#FFF0DA]/60 transition relative overflow-hidden h-[120px]">
                         <label v-if="!previewUrl" for="file" class="flex flex-col items-center justify-center cursor-pointer space-y-2 text-center w-full py-8">
                             <svg xmlns="http://www.w3.org/2000/svg" class="mt-2 h-8 w-8 text-[#E87C2A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -38,7 +38,7 @@
                             <input v-model.number="form[field.name]" type="number" :min="field.min || 0" :required="field.required" class="w-full rounded-lg border border-[#E3B991]/60 bg-[#FFF9F3] px-2 py-1 outline-none focus:ring-2 focus:ring-[#E87C2A]/40 text-sm" />
                         </div>
 
-                        <div v-if="field.type === 'toggle' && (isEditing || (isAlimentos && (field.name === 'kilo' || field.name === 'empaquetado')) )" class="bg-white border border-[#E3B991]/80 rounded-xl p-4 flex justify-between items-center">
+                        <div v-if="field.type === 'toggle' && (isEditing || (isAlimentos && (field.name === 'kilo' || field.name === 'empaquetado')))" class="bg-white border border-[#E3B991]/80 rounded-xl p-4 flex justify-between items-center">
                             <label class="text-sm font-semibold text-[#A2642C]">{{ field.label }}</label>
                             <div class="flex items-center gap-2 text-sm font-medium">
                                 <span :class="!form[field.name] ? 'text-[#E87C2A]' : 'text-slate-500'" class="cursor-pointer" @click="form[field.name] = false">No</span>
@@ -60,16 +60,16 @@
                     </div>
                     <p v-if="errorMsg" class="text-sm text-red-600 sm:col-span-2">{{ errorMsg }}</p>
                 </form>
-                
-                                <!-- Modal éxito -->
-                                <transition name="fade">
-                                    <div v-if="showSuccess" class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-                                        <div class="bg-white rounded-2xl p-6 w-full max-w-xs text-center shadow-2xl">
-                                            <i class="fas fa-check-circle text-5xl text-green-500 mb-3"></i>
-                                            <h4 class="text-lg font-semibold text-[#3B2C20]">Guardado correctamente</h4>
-                                        </div>
-                                    </div>
-                                </transition>
+
+                <!-- Modal éxito -->
+                <transition name="fade">
+                    <div v-if="showSuccess" class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+                        <div class="bg-white rounded-2xl p-6 w-full max-w-xs text-center shadow-2xl">
+                            <i class="fas fa-check-circle text-5xl text-green-500 mb-3"></i>
+                            <h4 class="text-lg font-semibold text-[#3B2C20]">Guardado correctamente</h4>
+                        </div>
+                    </div>
+                </transition>
             </div>
         </div>
     </transition>
@@ -179,49 +179,49 @@ export default {
             this.errorMsg = ''
             try {
                 let res = null
-                        if (this.isEditing) {
-                            // Modo edición: usar update según tipo
-                            if (this.type === 'slide') {
-                                const payload = { title: this.form.title, text: this.form.text, published: !!this.form.published }
-                                res = await updateSlide(this.initial.path, payload)
-                            } else if (this.type === 'product') {
-                                const payload = { titulo: this.form.titulo, valor: this.form.valor, empaquetado: !!this.form.empaquetado, kilo: !!this.form.kilo, disponible: !!this.form.disponible, file: this.form.file }
-                                res = await updateProduct(this.initial.path, payload)
-                            } else if (this.type === 'proveedor') {
-                                const payload = { nombre: this.form.nombre, published: !!this.form.published, file: this.form.file }
-                                res = await updateProveedor(this.initial.path, payload)
-                            } else {
-                                throw new Error('Tipo desconocido')
-                            }
-                            // mostrar confirmación antes de emitir y cerrar
-                            this.showSuccess = true
-                            setTimeout(() => {
-                                this.$emit('updated', res)
-                                this.showSuccess = false
-                                this.$emit('close')
-                            }, 900)
-                        } else {
-                            // Modo creación
-                            if (this.type === 'slide') {
-                                const payload = { file: this.form.file, title: this.form.title, text: this.form.text, published: !!this.form.published }
-                                res = await createSlide(payload)
-                            } else if (this.type === 'product') {
-                                const payload = { ...this.form }
-                                res = await createProduct(this.category || 'general', payload)
-                            } else if (this.type === 'proveedor') {
-                                const payload = { file: this.form.file, nombre: this.form.nombre, published: !!this.form.published }
-                                res = await createPatrocinador(payload)
-                            } else {
-                                throw new Error('Tipo desconocido')
-                            }
-                            // mostrar confirmación antes de emitir y cerrar
-                            this.showSuccess = true
-                            setTimeout(() => {
-                                this.$emit('created', res)
-                                this.showSuccess = false
-                                this.$emit('close')
-                            }, 900)
-                        }
+                if (this.isEditing) {
+                    // Modo edición: usar update según tipo
+                    if (this.type === 'slide') {
+                        const payload = { title: this.form.title, text: this.form.text, published: !!this.form.published }
+                        res = await updateSlide(this.initial.path, payload)
+                    } else if (this.type === 'product') {
+                        const payload = { titulo: this.form.titulo, valor: this.form.valor, empaquetado: !!this.form.empaquetado, kilo: !!this.form.kilo, disponible: !!this.form.disponible, file: this.form.file }
+                        res = await updateProduct(this.initial.path, payload)
+                    } else if (this.type === 'proveedor') {
+                        const payload = { nombre: this.form.nombre, published: !!this.form.published, file: this.form.file }
+                        res = await updateProveedor(this.initial.path, payload)
+                    } else {
+                        throw new Error('Tipo desconocido')
+                    }
+                    // mostrar confirmación antes de emitir y cerrar
+                    this.showSuccess = true
+                    setTimeout(() => {
+                        this.$emit('updated', res)
+                        this.showSuccess = false
+                        this.$emit('close')
+                    }, 900)
+                } else {
+                    // Modo creación
+                    if (this.type === 'slide') {
+                        const payload = { file: this.form.file, title: this.form.title, text: this.form.text, published: !!this.form.published }
+                        res = await createSlide(payload)
+                    } else if (this.type === 'product') {
+                        const payload = { ...this.form }
+                        res = await createProduct(this.category || 'general', payload)
+                    } else if (this.type === 'proveedor') {
+                        const payload = { file: this.form.file, nombre: this.form.nombre, published: !!this.form.published }
+                        res = await createPatrocinador(payload)
+                    } else {
+                        throw new Error('Tipo desconocido')
+                    }
+                    // mostrar confirmación antes de emitir y cerrar
+                    this.showSuccess = true
+                    setTimeout(() => {
+                        this.$emit('created', res)
+                        this.showSuccess = false
+                        this.$emit('close')
+                    }, 900)
+                }
                 // close handled after success overlay
             } catch (err) {
                 this.errorMsg = err?.message || 'Error al guardar'
@@ -233,5 +233,3 @@ export default {
     }
 }
 </script>
-
-

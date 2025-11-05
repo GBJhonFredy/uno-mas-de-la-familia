@@ -24,7 +24,11 @@
 
         <!-- Contenido -->
         <div class="p-4 overflow-y-auto" style="max-height:60vh;">
-          <div v-if="loading" class="text-center text-[#A2642C] py-6 animate-pulse">Cargando artículos...</div>
+          <div v-if="loading" class="flex flex-col items-center justify-center py-10">
+            <!-- Spinner grande -->
+            <div class="w-16 h-16 border-4 border-[#FFE1B0] border-t-4 border-t-[#E87C2A] rounded-full animate-spin"></div>
+            <div class="mt-4 text-sm font-medium text-[#A2642C]">Cargando artículos...</div>
+          </div>
           <div v-else-if="loadError" class="text-center text-red-600 py-6">{{ loadError }}</div>
           <div v-else-if="!displayedItems || !displayedItems.length" class="text-center text-[#A2642C]/70 py-6">
             No hay artículos en esta categoría.
@@ -258,11 +262,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.slide-up-enter-active { transition: all 0.25s ease; }
-.slide-up-leave-active { transition: all 0.15s ease; }
-.slide-up-enter-from { transform: translateY(20px); opacity: 0; }
-.slide-up-enter-to { transform: translateY(0); opacity: 1; }
-.slide-up-leave-from { transform: translateY(0); opacity: 1; }
-.slide-up-leave-to { transform: translateY(20px); opacity: 0; }
-</style>
+

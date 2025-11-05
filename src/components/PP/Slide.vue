@@ -2,8 +2,8 @@
   <!-- SLIDER -->
   <div data-aos="zoom-in"  class="sliderPP max-w-5xl mx-auto rounded-2xl fade-in relative min-h-[420px] flex items-center justify-center">
 
-    <!-- 🔹 Botón de herramientas para admin -->
-    <div class="absolute top-4 right-6 z-50">
+    <!-- 🔹 Botón de herramientas para admin (visible solo si está logueado) -->
+    <div v-if="isAdmin" class="absolute top-4 right-6 z-50">
       <BtnAdmin
         :actions="[
           { label: 'Nuevo', title: 'Agregar Slide', icon: '/img/upload-svgrepo-com.svg', event: 'add' },
@@ -82,7 +82,7 @@ export default {
     return {
       slides: [],
       splideOptions,
-      isAdmin: true,
+      isAdmin: Boolean(sessionStorage.getItem('umdf_logged')),
       showModal: false,
       toolsOpen: false, // 👈 agregado
       form: { file: null, title: '', text: '', published: true },
@@ -106,9 +106,16 @@ export default {
       console.error('Error escuchando slides', e)
       this.loadingSlides = false
     }
+    // listeners para login/logout
+    this._onLogin = () => { this.isAdmin = true }
+    this._onLogout = () => { this.isAdmin = false }
+    window.addEventListener('umdf:login', this._onLogin)
+    window.addEventListener('umdf:logout', this._onLogout)
   },
   beforeUnmount() {
     if (this.unsubSlides) this.unsubSlides()
+    window.removeEventListener('umdf:login', this._onLogin)
+    window.removeEventListener('umdf:logout', this._onLogout)
   },
 
   computed: {

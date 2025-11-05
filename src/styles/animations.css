@@ -61,22 +61,7 @@
   transform: translateY(-1px);
 }
 
-/* === FADE List === */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 
-
-/* === FADE IN === */
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out;
 }
@@ -141,15 +126,6 @@
   opacity: 1;
 }
 
-/* === FADE === */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 
 
 /* === ANIMACIÓN BURBUJA === */
@@ -169,14 +145,7 @@
 .animate-bubbleIn {
   animation: bubbleIn 0.3s ease-out;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.25s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -187,3 +156,26 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #e87c2a;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.animate-slideUp { animation: slideUp 0.3s ease-out; }
+
+.slide-up-enter-active { transition: all 0.25s ease; }
+.slide-up-leave-active { transition: all 0.15s ease; }
+.slide-up-enter-from { transform: translateY(20px); opacity: 0; }
+.slide-up-enter-to { transform: translateY(0); opacity: 1; }
+.slide-up-leave-from { transform: translateY(0); opacity: 1; }
+.slide-up-leave-to { transform: translateY(20px); opacity: 0; }
+

@@ -84,8 +84,8 @@
         class="relative cursor-pointer bg-white shadow-md rounded-2xl p-6 ring-1 ring-[#F3D6B3] hover:-translate-y-1 hover:shadow-lg transition"
         @click="openCategory(cat.name)"
       >
-        <!-- BtnAdmin sobre cada card -->
-        <div class="absolute top-2 right-2 z-10" @click.stop>
+        <!-- BtnAdmin sobre cada card (visible sólo si está logueado) -->
+        <div v-if="isAdmin" class="absolute top-2 right-2 z-10" @click.stop>
           <BtnAdmin
             :actions="[
               { label: 'Agregar', title: 'Nuevo producto', icon: '/img/upload-svgrepo-com.svg', event: 'add' },
@@ -140,13 +140,14 @@ import ModalCreate from '@/components/admin/ModalCreate.vue'
 import ModalList from '@/components/admin/ModalList.vue'
 import BottomSheet from '@/components/PP/BottomSheet.vue'
 import { getProducts } from '@/services/productsService.js'
+import BtnAdmin from '@/components/admin/BtnAdmin.vue'
 import { categories } from '../data/homeData.js'
 
 
 
 export default {
   name: 'HomeView',
-  components: { Slider, Proveedores, ModalCreate, ModalList, BottomSheet },
+  components: { Slider, Proveedores, ModalCreate, BtnAdmin, ModalList, BottomSheet },
   data() {
     return {  categories,
       showForm: false,
@@ -154,8 +155,20 @@ export default {
       showList: false,
       // bottom sheet state
       bottomOpen: false,
-      bottomItems: []
+      bottomItems: [],
+      // admin state
+      isAdmin: Boolean(sessionStorage.getItem('umdf_logged'))
     }
+  },
+  mounted() {
+    this._onLogin = () => { this.isAdmin = true }
+    this._onLogout = () => { this.isAdmin = false }
+    window.addEventListener('umdf:login', this._onLogin)
+    window.addEventListener('umdf:logout', this._onLogout)
+  },
+  beforeUnmount() {
+    window.removeEventListener('umdf:login', this._onLogin)
+    window.removeEventListener('umdf:logout', this._onLogout)
   },
   methods: {
     onAction(category, action) {
