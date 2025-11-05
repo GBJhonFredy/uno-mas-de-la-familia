@@ -40,7 +40,7 @@
           Amor, cuidado y calidad para tu mascota
         </h2>
         <p class="relative text-slate-700 leading-relaxed max-w-3xl mx-auto">
-          En <span class="font-semibold text-brand-600">UNO MÁS DE LA FAMILIA</span> creemos que cada mascota merece lo mejor.
+          En <span class="font-semibold text-brand-600 font-pacifico">Uno + de la Familia</span> creemos que cada mascota merece lo mejor.
           Ofrecemos <span class="text-brand-600">alimentos nutritivos, accesorios, y productos de belleza y salud</span>
           diseñados para su bienestar y felicidad. Somos más que una tienda,
           <span class="font-semibold">somos parte de su historia y su cuidado diario.</span>
